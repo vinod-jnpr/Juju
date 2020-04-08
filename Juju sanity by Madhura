@@ -1,0 +1,46 @@
+
+
+1. Enable root authentication on all bms machines
+
+sudo sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+sudo sed -i 's/#PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+sudo systemctl restart sshd
+
+2. Use the sample contrail_test_input.yaml file and create your own file by replacing the ip address.
+
+3. Download the testrunner.sh script using the below command.
+
+wget https://raw.githubusercontent.com/Juniper/contrail-test/master/testrunner.sh
+chmod +x ./testrunner.sh
+
+
+4. create a new file (demon.json) and add below entry
+   root@bms2:~# vi /etc/docker/daemon.json
+
+   {"insecure-registries": ["ci-repo.englab.juniper.net:5010"]}
+
+5. Start the test container using the below command
+
+docker pull ci-repo.englab.juniper.net:5010/contrail-test-test:queens-5.0-366
+./testrunner.sh run -P contrail_test_input.yaml -f sanity -s ci-repo.englab.juniper.net:5010/contrail-test-test:queens-5.0-366 
+
+common/contrail_test_init.py
+    319             if 'openstack' in roles:
+    320             #if 'openstack' in roles and 'nova' in host_data['containers']:
+
+5. Source the openrc file you created for this deployment , refer sample_openrc file and change keystone ip
+
+export OS_IDENTITY_API_VERSION=3
+export OS_AUTH_URL=http://10.87.79.28:5000/v3
+export OS_USER_DOMAIN_NAME=admin_domain
+export OS_USERNAME=admin
+export OS_PASSWORD=password
+export OS_PROJECT_DOMAIN_NAME=admin_domain
+export OS_PROJECT_NAME=admin
+export OS_DOMAIN_NAME=admin_domain
+
+
+6. Execute the below commands to run sanity from the test container.
+
+export PYTHONPATH=./:scripts/:fixtures/:serial_scripts/
+./run_tests.sh -s -m -U -t

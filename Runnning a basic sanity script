@@ -12,6 +12,9 @@ export OS_PROJECT_NAME=admin
 export OS_DOMAIN_NAME=admin_domain
 
 Use the contrail_test_input.yaml sample and modify the ip of the nodes 
+192.168.21.5 is the data interface ip of nodea29
+192.168.11.24 is the keystone ip
+10.204.217.158 is the local DNS ip
 
 Run the script below and ensure it works
 

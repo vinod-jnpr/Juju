@@ -1,4 +1,4 @@
-Enable root login on the controller and compute nodes(in our case a29-Controller and i8,m35 compute nodes)
+**Enable root login on the controller and compute nodes(in our case a29-Controller and i8,m35 compute nodes)**
 
 Export the below environment values and modify AUTH_URL ip, it should be the keystone ip address
 

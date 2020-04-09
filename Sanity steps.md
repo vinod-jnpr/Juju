@@ -26,3 +26,10 @@ Run the script below and ensure it works
 ```
 PYTHONPATH=./scripts:./fixtures TEST_CONFIG_FILE=contrail_test_input.yaml python -m testtools.run scripts.vm_regression.test_vm_basic.TestBasicVMVN.test_ping_within_vn_two_vms_two_different_subnets
 ```
+
+# yaml file on Ankit
+
+```
+https://github.com/Juniper/contrail-tools/commit/81a2fa185c2cbe0a38fb78cfa0b518902e8b8ff8
+```
+

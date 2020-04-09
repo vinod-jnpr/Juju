@@ -1,4 +1,15 @@
-# To create reverse SSH tunnel
+On noded2(10.204.216.57) modify /etc/ssh/sshd_config
+
+```
+GatewayPorts clientspecified
+```
+
+do a restart of sshd
+
+```
+service sshd restart
+```
+
 
 Command for login to openstack-dashboard
 

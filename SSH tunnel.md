@@ -1,7 +1,16 @@
 # To create reverse SSH tunnel
 
-Create a reverse SSH tunnel inoder to view the horizon dashboard.
-The command should be run on openstack-dashboard. It connects openstack-daskboard to noded2(192.168.11.2)
+Command for login to openstack-dashboard
+
+```
+juju ssh openstack-dashboard/0 
+```
+
+Create a reverse SSH tunnel inoder to view the horizon .
+
+The  below command should be run on openstack-dashboard.
+It connects openstack-daskboard to noded2(192.168.11.2)
+
 
 ```
 ssh -fN -R 0.0.0.0:9999:localhost:80 root@192.168.11.2
@@ -9,7 +18,7 @@ ssh -fN -R 0.0.0.0:9999:localhost:80 root@192.168.11.2
 
 # To view the horizon UI
 
-The horizon page van be viewed by the below commands, (10.204.216.57) below is ip of noded2
+The horizon page van be viewed by the below commands, (10.204.216.57) below is ip of noded2 port(9999) is port used for reverse SSH
 
 ```
 http://10.204.216.57:9999/horizon

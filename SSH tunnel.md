@@ -1,0 +1,25 @@
+# To create reverse SSH tunnel
+
+To create a reverse SSH tunnel to view the horizon dashboard and create VM's use the below command
+The command will be on openstack-dashboard connecting openstack-daskboard to noded2(192.168.11.2)
+
+```
+ssh -fN -R 0.0.0.0:9999:localhost:80 root@192.168.11.2
+```
+
+# To view the horizon UI
+
+The horizon page van be viewed by the below commands, (10.204.216.57) below is ip of noded2
+
+```
+http://10.204.216.57:9999/horizon
+```
+
+# To launch Vm's and ping between them
+
+```
+The Vm's can be created using the above UI
+Once created, Please check the compute nodes in which they have be created
+Login in to the compute and from there to the VM's using (ubuntu/ubuntu)
+Ping from there to the other Vm's and check the connectivity
+```

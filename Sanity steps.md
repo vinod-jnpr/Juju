@@ -33,3 +33,9 @@ PYTHONPATH=./scripts:./fixtures TEST_CONFIG_FILE=contrail_test_input.yaml python
 https://github.com/Juniper/contrail-tools/commit/81a2fa185c2cbe0a38fb78cfa0b518902e8b8ff8
 ```
 
+# Bundle file of Anikit
+
+```
+https://github.com/nuthanc/nuthanc-nodem4/blob/master/d2_configs/bundle_netronome.yaml
+```
+

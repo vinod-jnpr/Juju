@@ -1,0 +1,522 @@
+series: xenial
+services:
+  ntp:
+    charm: cs:xenial/ntp
+    num_units: 0
+    options:
+      source: 10.204.216.171
+  mysql:
+    charm: cs:xenial/percona-cluster
+    options:
+      dataset-size: 15%
+      max-connections: 10000
+      root-password: c0ntrail123
+      sst-password: c0ntrail123
+    bindings:
+      '': new
+    num_units: 1
+    to: [ "lxd:1"]
+  rabbitmq-server:
+    charm: cs:xenial/rabbitmq-server
+    bindings:
+      '': new
+    num_units: 1
+    to: [ "lxd:1"]
+  contrail-rabbitmq-server:
+    bindings:
+      '': new
+    charm: cs:xenial/rabbitmq-server
+    num_units: 1
+    to: [ "lxd:1"]
+  heat:
+    charm: cs:xenial/heat
+    bindings:
+      '': new
+    num_units: 1
+    to: [ "lxd:1" ]
+  keystone:
+    charm: cs:xenial/keystone
+    options:
+      admin-password: c0ntrail123
+      admin-role: admin
+      openstack-origin: cloud:xenial-ocata
+      #preferred-api-version: 3
+    bindings:
+      '': new
+    num_units: 1
+    to: [ "lxd:1" ]
+
+  nova-cloud-controller:
+    charm: ./charm-nova-cloud-controller
+    options:
+      network-manager: Neutron
+      openstack-origin: cloud:xenial-ocata
+      extra-key: |
+        - |
+          -----BEGIN PGP PUBLIC KEY BLOCK-----
+          Version: GnuPG v1
+
+          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
+          =CwD5
+          -----END PGP PUBLIC KEY BLOCK-----
+      extra-source: |
+        - "deb [arch=amd64] http://192.168.30.152/ubuntu/ xenial main"
+    bindings:
+      '': new
+    num_units: 1
+    to: [ "lxd:1" ]
+
+  neutron-api:
+    charm: ./charm-neutron-api
+    series: xenial
+    options:
+      manage-neutron-plugin-legacy-mode: false
+      openstack-origin: cloud:xenial-ocata
+      extra-key: |
+        - |
+          -----BEGIN PGP PUBLIC KEY BLOCK-----
+          Version: GnuPG v1
+
+          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
+          =CwD5
+          -----END PGP PUBLIC KEY BLOCK-----
+      extra-source: |
+        - "deb [arch=amd64] http://192.168.30.152/ubuntu/ xenial main"
+    num_units: 1
+    bindings:
+      '': new
+    to: [ "lxd:1" ]
+  glance:
+    charm: cs:xenial/glance
+    options:
+      openstack-origin: cloud:xenial-ocata
+    bindings:
+      '': new
+    num_units: 1
+    to: [ "lxd:1" ]
+  openstack-dashboard:
+    charm: cs:xenial/openstack-dashboard
+    options:
+      openstack-origin: cloud:xenial-ocata
+    num_units: 1
+    bindings:
+      '': new
+    to: [ "lxd:1" ]
+
+  accel-nova-compute:
+    charm: ./charm-nova-compute
+    options:
+      openstack-origin: cloud:xenial-ocata
+      ksm: "0"
+      hugepages: "65536"
+      pci-passthrough-whitelist: "scan-agilio"
+    num_units: 2
+    to: [ "2", "3" ]
+
+  contrail-openstack:
+    charm: ./contrail-charms/contrail-openstack
+    series: xenial
+    num_units: 0
+    bindings:
+      '': new
+    options:
+      install-keys: |
+        - |
+          -----BEGIN PGP PUBLIC KEY BLOCK-----
+          Version: GnuPG v1
+
+          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
+          =CwD5
+          -----END PGP PUBLIC KEY BLOCK-----
+      install-sources: |
+        - "deb [arch=amd64] http://192.168.30.152/ubuntu/ xenial main"
+
+  accel-contrail-agent:
+    charm: ./contrail-charms/contrail-agent
+    num_units: 0
+    series: xenial
+    options:
+      physical-interface: nfp_p0
+      wait-for-external-plugin: True
+      install-keys: |
+        - |
+          -----BEGIN PGP PUBLIC KEY BLOCK-----
+          Version: GnuPG v1
+
+          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
+          =CwD5
+          -----END PGP PUBLIC KEY BLOCK-----
+      install-sources: |
+        - "deb [arch=amd64] http://192.168.30.152/ubuntu/ xenial main"
+
+  agilio-vrouter:
+    charm: ./agilio-vrouter
+    num_units: 0
+    series: xenial
+    options:
+      virtioforwarder-coremask: "2"
+      install-keys: |
+        - |
+          -----BEGIN PGP PUBLIC KEY BLOCK-----
+          Version: GnuPG v1
+
+          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
+          =CwD5
+          -----END PGP PUBLIC KEY BLOCK-----
+      install-sources: |
+        - "deb [arch=amd64] http://192.168.30.152/ubuntu/ xenial main"
+  contrail-analytics:
+    charm: ./contrail-charms/contrail-analytics
+    num_units: 1
+    series: xenial
+    options:
+      control-network: "192.168.40.0/24"
+    to: [ "1"]
+  contrail-analyticsdb:
+    charm: ./contrail-charms/contrail-analyticsdb
+    num_units: 1
+    series: xenial
+    options:
+      cassandra-minimum-diskgb: "50"
+      control-network: "192.168.40.0/24"
+    to: [ "1" ]
+  contrail-controller:
+    charm: ./contrail-charms/contrail-controller
+    series: xenial
+    options:
+      control-network: "192.168.40.0/24"
+      use-external-rabbitmq: True
+    num_units: 1
+    to: [ "1" ]
+  contrail-keystone-auth:
+    charm: ./contrail-charms/contrail-keystone-auth
+    series: xenial
+    num_units: 1
+    bindings:
+      '': new
+    to: [ "lxd:1" ]
+
+ # contrail-keepalived:
+ #   charm: cs:~boucherv29/keepalived-19
+ #   series: xenial
+ #   options:
+ #     virtual_ip: 192.168.10.254
+ # contrail-haproxy:
+ #   charm: haproxy
+ #   series: xenial
+ #   expose: true
+ #   options:
+ #     peering_mode: "active-active"
+ #   to: [ "1", "2", "3" ]
+
+relations:
+  # openstack
+  #- [ "ubuntu", "ntp" ]
+  - [ "keystone", "mysql" ]
+  - [ "glance", "mysql" ]
+  - [ "glance", "keystone" ]
+  - [ "nova-cloud-controller", "mysql" ]
+  - [ "nova-cloud-controller", "rabbitmq-server" ]
+  - [ "nova-cloud-controller", "keystone" ]
+  - [ "nova-cloud-controller", "glance" ]
+  - [ "neutron-api", "mysql" ]
+  - [ "neutron-api", "rabbitmq-server" ]
+  - [ "neutron-api", "nova-cloud-controller" ]
+  - [ "neutron-api", "keystone" ]
+  - [ "accel-nova-compute:amqp", "rabbitmq-server:amqp" ]
+  - [ "accel-nova-compute", "glance" ]
+  - [ "accel-nova-compute", "nova-cloud-controller" ]
+  - [ "accel-nova-compute", "ntp" ]
+  - [ "openstack-dashboard:identity-service", "keystone" ]
+  - [ "openstack-dashboard", "mysql" ]
+  - [ "heat", "mysql" ]
+  - [ "heat", "contrail-rabbitmq-server" ]
+  - [ "heat", "keystone" ]
+
+  #contrail
+#  - [ "haproxy:juju-info", "keepalived:juju-info" ]
+  - [ "contrail-keystone-auth", "keystone" ]
+  - [ "contrail-controller", "contrail-keystone-auth" ]
+  - [ "contrail-controller", "contrail-rabbitmq-server:amqp" ]
+  - [ "contrail-analytics", "contrail-analyticsdb" ]
+  - [ "contrail-controller", "contrail-analytics" ]
+  - [ "contrail-controller", "contrail-analyticsdb" ]
+  - [ "contrail-openstack", "accel-nova-compute" ]
+  - [ "contrail-openstack", "neutron-api" ]
+  - [ "contrail-openstack", "heat" ]
+  - [ "contrail-openstack", "contrail-controller" ]
+  - [ "accel-contrail-agent:juju-info", "accel-nova-compute:juju-info" ]
+  - [ "accel-contrail-agent", "contrail-controller"]
+
+  #Agilio vrouter
+  - [ "accel-contrail-agent", "agilio-vrouter"]
+  - [ "agilio-vrouter:juju-info", "accel-nova-compute:juju-info" ]
+
+  #haproxy
+#  - [ "haproxy:juju-info", "keepalived:juju-info" ]
+#  - [ "contrail-analytics", "haproxy" ]
+#  - [ "contrail-controller:http-services", "haproxy" ]
+#  - [ "contrail-controller:https-services", "haproxy" ]
+
+machines:
+  "1":
+    series: xenial
+    #constraints: mem=15G root-disk=40G
+    constraints: tags=controller
+  "2":
+    series: xenial
+    #constraints: mem=4G root-disk=20G
+    constraints: tags=compute
+  "3":
+    series: xenial
+    #constraints: mem=4G root-disk=20G
+    constraints: tags=compute
+  #"4":
+  #  series: xenial
+  #  #constraints: mem=4G root-disk=20G
+  #  constraints: tags=contrail

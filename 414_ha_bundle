@@ -1,0 +1,405 @@
+series: xenial
+services:
+  ubuntu:
+    charm: cs:xenial/ubuntu
+    num_units: 5
+    to: [ "1","2","3","4", "5" ]
+  ntp:
+    charm: cs:xenial/ntp
+    num_units: 0
+    options:
+      source: 10.204.216.171
+  mysql:
+    charm: cs:xenial/percona-cluster
+    options:
+      dataset-size: 15%
+      max-connections: 10000
+      root-password: c0ntrail123
+      sst-password: c0ntrail123
+    bindings:
+      '': new
+    num_units: 1
+    to: [ "lxd:1"]
+  rabbitmq-server:
+    charm: cs:xenial/rabbitmq-server
+    bindings:
+      '': new
+    num_units: 1
+    to: [ "lxd:1"]
+  contrail-rabbitmq-server:
+    bindings:
+      '': new
+    charm: cs:xenial/rabbitmq-server
+    num_units: 1
+    to: [ "lxd:1"]
+  #heat:
+  #  charm: cs:xenial/heat
+  #  bindings:
+  #    '': new
+  #  num_units: 1
+  #  to: [ "lxd:1" ]
+  keystone:
+    charm: cs:xenial/keystone
+    options:
+      admin-password: c0ntrail123
+      admin-role: admin
+      openstack-origin: cloud:xenial-ocata
+      #preferred-api-version: 3
+    bindings:
+      '': new
+    num_units: 1
+    to: [ "lxd:1" ]
+
+  nova-cloud-controller:
+    charm: ./charm-nova-cloud-controller
+    options:
+      network-manager: Neutron
+      openstack-origin: cloud:xenial-ocata
+      extra-key: |
+        - |
+          -----BEGIN PGP PUBLIC KEY BLOCK-----
+          Version: GnuPG v1
+
+          mQENBF8IEW8BCADhGtnvabijyGiwzh7nkL0HNk49ATrlg8nQcjfGkCafZQoXX2Wl
+          2d3+m1xMbVWMzLDL1E0bDrjV4Zl+n485fG44XxN1wUqKFgTJFrhVRnHomuUj3I7R
+          R9IMm4Rj+JO5PWeY2OcX2OtaMy5vFMaEnwtC3gJRDMU/U6nWWLCAC2JfyChKWgQQ
+          KrEN/E5Ra4P6+K+XSw3tjYAgbWN/E/rPcBnwb86J+sgCoEQ2s+0zuPusdC6Rqn91
+          aqmxAW0nO2MCiLJ5B+SWqMp0qwibnX/i3x7UTnjItQYyyEt2CFwk4dTksWWa6FQl
+          IMCUdftAjRd7qRX2JoE955XYf/c/rU8OrWvzABEBAAG0JXZpbm9kIGt1bWFyIDx2
+          aW5vZGt1bWFyYUBqdW5pcGVyLm5ldD6JATgEEwECACIFAl8IEW8CGwMGCwkIBwMC
+          BhUIAgkKCwQWAgMBAh4BAheAAAoJEBHrqW1Q7T/MdJkH/iP13KQSZCRuxzHqrEpG
+          CojqrbY/jSrOCVpoaft38Yx1YMknwSBqArpXRKUt+QimTz3zTPBasQudPNE62Acw
+          jlg+7DzUEm9TvN+afxvHxe7sdcLJneS6hYtIkzArMlCQtIVsESuc6B4g2UUz4jLn
+          MERCtLF8/7OamnLl/6vmUPEUlU2Sub3eZkNjUv4ANSVjrBlM/r9njFlV2z/EhsC0
+          y3QzgNJkaNdJP4BSJ6F7sb3THHo5Us4te0VY7H2/rk9QE6MwDK6GFxm0TNjtPA6h
+          kOMVf4KvyLGsiI2TCstyKMOk6q2cbk+XCzVzAupKK6dsBPvPJXcPS/klJwGlhQnA
+          hgG5AQ0EXwgRbwEIANn25sjf36ocwkILBEWvzQkOZ6Jd/hRQOC6SuuXwlFqTVd/y
+          CVbswxbOmzS4gUiMOPziY9UhwhpSZdMGF4F1gQYn/FHS3PDLhNMMP3hNUlpDb7GW
+          lga6AJkuTFrgFi1T8E9nEd6lJJNDh/0yZOd0j18f5UovQvALDKz0wCnNRoBOF+65
+          igz4O6WoOaIFnuALCXbrozWbsoU7ENhfSMBHz1PsqEH2/lH4JxYvK0wgy1jdSezb
+          yOr0NQKjKE4+jlsVsrB/C7uxvrQqh65cHoBGyMj8KO97PgGtH547aq+Px8WRVrvO
+          Telk+VIubpFqpJcjSHuR+P+7jjnRZe04iFNrsAUAEQEAAYkBHwQYAQIACQUCXwgR
+          bwIbDAAKCRAR66ltUO0/zBSgB/wMCvcgywWe9sUQG+GAPbRLReFCpVHaowrqEU8I
+          uqizBIIsOKYZ2IvBP+OmQ+tdWnPnRw5INpyUXiF1CfYH8QlwuX0ngtE4WEW3+SxK
+          6IBmRYHhzf7E4YDtcayRA9vcfD05UOvpBHpQoNuPtNnfRzITgwOm8omljVhh2+p5
+          1YRUiFShTI6lpjYnhHE50GPjjC18QNOvMLp1LFXw6CSAo4NvfXe517AdbcgO6QPL
+          vcFFXTvoEhunjMY/2ee0L+pNGJM46yT0hQ6HKfTFkBT5qghFk5h/2m1TSlMDhNs3
+          B+UP5tjQo6+BIeNeAtfWP659RmSuXOBCmgJceQZ771vKcULH
+          =SEBo
+          -----END PGP PUBLIC KEY BLOCK-----
+      extra-source: |
+        - "deb [arch=amd64] http://192.168.30.28/ubuntu/ xenial main"
+    bindings:
+      '': new
+    num_units: 1
+    to: [ "lxd:1" ]
+
+  neutron-api:
+    charm: ./charm-neutron-api
+    series: xenial
+    options:
+      manage-neutron-plugin-legacy-mode: false
+      openstack-origin: cloud:xenial-ocata
+      extra-key: |
+        - |
+          -----BEGIN PGP PUBLIC KEY BLOCK-----
+          Version: GnuPG v1
+
+          mQENBF8IEW8BCADhGtnvabijyGiwzh7nkL0HNk49ATrlg8nQcjfGkCafZQoXX2Wl
+          2d3+m1xMbVWMzLDL1E0bDrjV4Zl+n485fG44XxN1wUqKFgTJFrhVRnHomuUj3I7R
+          R9IMm4Rj+JO5PWeY2OcX2OtaMy5vFMaEnwtC3gJRDMU/U6nWWLCAC2JfyChKWgQQ
+          KrEN/E5Ra4P6+K+XSw3tjYAgbWN/E/rPcBnwb86J+sgCoEQ2s+0zuPusdC6Rqn91
+          aqmxAW0nO2MCiLJ5B+SWqMp0qwibnX/i3x7UTnjItQYyyEt2CFwk4dTksWWa6FQl
+          IMCUdftAjRd7qRX2JoE955XYf/c/rU8OrWvzABEBAAG0JXZpbm9kIGt1bWFyIDx2
+          aW5vZGt1bWFyYUBqdW5pcGVyLm5ldD6JATgEEwECACIFAl8IEW8CGwMGCwkIBwMC
+          BhUIAgkKCwQWAgMBAh4BAheAAAoJEBHrqW1Q7T/MdJkH/iP13KQSZCRuxzHqrEpG
+          CojqrbY/jSrOCVpoaft38Yx1YMknwSBqArpXRKUt+QimTz3zTPBasQudPNE62Acw
+          jlg+7DzUEm9TvN+afxvHxe7sdcLJneS6hYtIkzArMlCQtIVsESuc6B4g2UUz4jLn
+          MERCtLF8/7OamnLl/6vmUPEUlU2Sub3eZkNjUv4ANSVjrBlM/r9njFlV2z/EhsC0
+          y3QzgNJkaNdJP4BSJ6F7sb3THHo5Us4te0VY7H2/rk9QE6MwDK6GFxm0TNjtPA6h
+          kOMVf4KvyLGsiI2TCstyKMOk6q2cbk+XCzVzAupKK6dsBPvPJXcPS/klJwGlhQnA
+          hgG5AQ0EXwgRbwEIANn25sjf36ocwkILBEWvzQkOZ6Jd/hRQOC6SuuXwlFqTVd/y
+          CVbswxbOmzS4gUiMOPziY9UhwhpSZdMGF4F1gQYn/FHS3PDLhNMMP3hNUlpDb7GW
+          lga6AJkuTFrgFi1T8E9nEd6lJJNDh/0yZOd0j18f5UovQvALDKz0wCnNRoBOF+65
+          igz4O6WoOaIFnuALCXbrozWbsoU7ENhfSMBHz1PsqEH2/lH4JxYvK0wgy1jdSezb
+          yOr0NQKjKE4+jlsVsrB/C7uxvrQqh65cHoBGyMj8KO97PgGtH547aq+Px8WRVrvO
+          Telk+VIubpFqpJcjSHuR+P+7jjnRZe04iFNrsAUAEQEAAYkBHwQYAQIACQUCXwgR
+          bwIbDAAKCRAR66ltUO0/zBSgB/wMCvcgywWe9sUQG+GAPbRLReFCpVHaowrqEU8I
+          uqizBIIsOKYZ2IvBP+OmQ+tdWnPnRw5INpyUXiF1CfYH8QlwuX0ngtE4WEW3+SxK
+          6IBmRYHhzf7E4YDtcayRA9vcfD05UOvpBHpQoNuPtNnfRzITgwOm8omljVhh2+p5
+          1YRUiFShTI6lpjYnhHE50GPjjC18QNOvMLp1LFXw6CSAo4NvfXe517AdbcgO6QPL
+          vcFFXTvoEhunjMY/2ee0L+pNGJM46yT0hQ6HKfTFkBT5qghFk5h/2m1TSlMDhNs3
+          B+UP5tjQo6+BIeNeAtfWP659RmSuXOBCmgJceQZ771vKcULH
+          =SEBo
+          -----END PGP PUBLIC KEY BLOCK-----
+      extra-source: |
+        - "deb [arch=amd64] http://192.168.30.28/ubuntu/ xenial main"
+    num_units: 1
+    bindings:
+      '': new
+    to: [ "lxd:1" ]
+  glance:
+    charm: cs:xenial/glance
+    options:
+      openstack-origin: cloud:xenial-ocata
+    bindings:
+      '': new
+    num_units: 1
+    to: [ "lxd:1" ]
+  openstack-dashboard:
+    charm: cs:xenial/openstack-dashboard
+    options:
+      openstack-origin: cloud:xenial-ocata
+    num_units: 1
+    bindings:
+      '': new
+    to: [ "lxd:1" ]
+
+  accel-nova-compute:
+    charm: ./charm-nova-compute
+    options:
+      openstack-origin: cloud:xenial-ocata
+      ksm: "0"
+      hugepages: "65536"
+      pci-passthrough-whitelist: "scan-agilio"
+    num_units: 2
+    to: [ "2", "3" ]
+
+  contrail-openstack:
+    charm: ./contrail-charms/contrail-openstack
+    series: xenial
+    num_units: 0
+    bindings:
+      '': new
+    options:
+      install-keys: |
+        - |
+          -----BEGIN PGP PUBLIC KEY BLOCK-----
+          Version: GnuPG v1
+
+          mQENBF8IEW8BCADhGtnvabijyGiwzh7nkL0HNk49ATrlg8nQcjfGkCafZQoXX2Wl
+          2d3+m1xMbVWMzLDL1E0bDrjV4Zl+n485fG44XxN1wUqKFgTJFrhVRnHomuUj3I7R
+          R9IMm4Rj+JO5PWeY2OcX2OtaMy5vFMaEnwtC3gJRDMU/U6nWWLCAC2JfyChKWgQQ
+          KrEN/E5Ra4P6+K+XSw3tjYAgbWN/E/rPcBnwb86J+sgCoEQ2s+0zuPusdC6Rqn91
+          aqmxAW0nO2MCiLJ5B+SWqMp0qwibnX/i3x7UTnjItQYyyEt2CFwk4dTksWWa6FQl
+          IMCUdftAjRd7qRX2JoE955XYf/c/rU8OrWvzABEBAAG0JXZpbm9kIGt1bWFyIDx2
+          aW5vZGt1bWFyYUBqdW5pcGVyLm5ldD6JATgEEwECACIFAl8IEW8CGwMGCwkIBwMC
+          BhUIAgkKCwQWAgMBAh4BAheAAAoJEBHrqW1Q7T/MdJkH/iP13KQSZCRuxzHqrEpG
+          CojqrbY/jSrOCVpoaft38Yx1YMknwSBqArpXRKUt+QimTz3zTPBasQudPNE62Acw
+          jlg+7DzUEm9TvN+afxvHxe7sdcLJneS6hYtIkzArMlCQtIVsESuc6B4g2UUz4jLn
+          MERCtLF8/7OamnLl/6vmUPEUlU2Sub3eZkNjUv4ANSVjrBlM/r9njFlV2z/EhsC0
+          y3QzgNJkaNdJP4BSJ6F7sb3THHo5Us4te0VY7H2/rk9QE6MwDK6GFxm0TNjtPA6h
+          kOMVf4KvyLGsiI2TCstyKMOk6q2cbk+XCzVzAupKK6dsBPvPJXcPS/klJwGlhQnA
+          hgG5AQ0EXwgRbwEIANn25sjf36ocwkILBEWvzQkOZ6Jd/hRQOC6SuuXwlFqTVd/y
+          CVbswxbOmzS4gUiMOPziY9UhwhpSZdMGF4F1gQYn/FHS3PDLhNMMP3hNUlpDb7GW
+          lga6AJkuTFrgFi1T8E9nEd6lJJNDh/0yZOd0j18f5UovQvALDKz0wCnNRoBOF+65
+          igz4O6WoOaIFnuALCXbrozWbsoU7ENhfSMBHz1PsqEH2/lH4JxYvK0wgy1jdSezb
+          yOr0NQKjKE4+jlsVsrB/C7uxvrQqh65cHoBGyMj8KO97PgGtH547aq+Px8WRVrvO
+          Telk+VIubpFqpJcjSHuR+P+7jjnRZe04iFNrsAUAEQEAAYkBHwQYAQIACQUCXwgR
+          bwIbDAAKCRAR66ltUO0/zBSgB/wMCvcgywWe9sUQG+GAPbRLReFCpVHaowrqEU8I
+          uqizBIIsOKYZ2IvBP+OmQ+tdWnPnRw5INpyUXiF1CfYH8QlwuX0ngtE4WEW3+SxK
+          6IBmRYHhzf7E4YDtcayRA9vcfD05UOvpBHpQoNuPtNnfRzITgwOm8omljVhh2+p5
+          1YRUiFShTI6lpjYnhHE50GPjjC18QNOvMLp1LFXw6CSAo4NvfXe517AdbcgO6QPL
+          vcFFXTvoEhunjMY/2ee0L+pNGJM46yT0hQ6HKfTFkBT5qghFk5h/2m1TSlMDhNs3
+          B+UP5tjQo6+BIeNeAtfWP659RmSuXOBCmgJceQZ771vKcULH
+          =SEBo
+          -----END PGP PUBLIC KEY BLOCK-----
+      install-sources: |
+        - "deb [arch=amd64] http://192.168.30.28/ubuntu/ xenial main"
+
+  accel-contrail-agent:
+    charm: ./contrail-charms/contrail-agent
+    num_units: 0
+    series: xenial
+    options:
+      physical-interface: nfp_p0
+      wait-for-external-plugin: True
+      install-keys: |
+        - |
+          -----BEGIN PGP PUBLIC KEY BLOCK-----
+          Version: GnuPG v1
+
+          mQENBF8IEW8BCADhGtnvabijyGiwzh7nkL0HNk49ATrlg8nQcjfGkCafZQoXX2Wl
+          2d3+m1xMbVWMzLDL1E0bDrjV4Zl+n485fG44XxN1wUqKFgTJFrhVRnHomuUj3I7R
+          R9IMm4Rj+JO5PWeY2OcX2OtaMy5vFMaEnwtC3gJRDMU/U6nWWLCAC2JfyChKWgQQ
+          KrEN/E5Ra4P6+K+XSw3tjYAgbWN/E/rPcBnwb86J+sgCoEQ2s+0zuPusdC6Rqn91
+          aqmxAW0nO2MCiLJ5B+SWqMp0qwibnX/i3x7UTnjItQYyyEt2CFwk4dTksWWa6FQl
+          IMCUdftAjRd7qRX2JoE955XYf/c/rU8OrWvzABEBAAG0JXZpbm9kIGt1bWFyIDx2
+          aW5vZGt1bWFyYUBqdW5pcGVyLm5ldD6JATgEEwECACIFAl8IEW8CGwMGCwkIBwMC
+          BhUIAgkKCwQWAgMBAh4BAheAAAoJEBHrqW1Q7T/MdJkH/iP13KQSZCRuxzHqrEpG
+          CojqrbY/jSrOCVpoaft38Yx1YMknwSBqArpXRKUt+QimTz3zTPBasQudPNE62Acw
+          jlg+7DzUEm9TvN+afxvHxe7sdcLJneS6hYtIkzArMlCQtIVsESuc6B4g2UUz4jLn
+          MERCtLF8/7OamnLl/6vmUPEUlU2Sub3eZkNjUv4ANSVjrBlM/r9njFlV2z/EhsC0
+          y3QzgNJkaNdJP4BSJ6F7sb3THHo5Us4te0VY7H2/rk9QE6MwDK6GFxm0TNjtPA6h
+          kOMVf4KvyLGsiI2TCstyKMOk6q2cbk+XCzVzAupKK6dsBPvPJXcPS/klJwGlhQnA
+          hgG5AQ0EXwgRbwEIANn25sjf36ocwkILBEWvzQkOZ6Jd/hRQOC6SuuXwlFqTVd/y
+          CVbswxbOmzS4gUiMOPziY9UhwhpSZdMGF4F1gQYn/FHS3PDLhNMMP3hNUlpDb7GW
+          lga6AJkuTFrgFi1T8E9nEd6lJJNDh/0yZOd0j18f5UovQvALDKz0wCnNRoBOF+65
+          igz4O6WoOaIFnuALCXbrozWbsoU7ENhfSMBHz1PsqEH2/lH4JxYvK0wgy1jdSezb
+          yOr0NQKjKE4+jlsVsrB/C7uxvrQqh65cHoBGyMj8KO97PgGtH547aq+Px8WRVrvO
+          Telk+VIubpFqpJcjSHuR+P+7jjnRZe04iFNrsAUAEQEAAYkBHwQYAQIACQUCXwgR
+          bwIbDAAKCRAR66ltUO0/zBSgB/wMCvcgywWe9sUQG+GAPbRLReFCpVHaowrqEU8I
+          uqizBIIsOKYZ2IvBP+OmQ+tdWnPnRw5INpyUXiF1CfYH8QlwuX0ngtE4WEW3+SxK
+          6IBmRYHhzf7E4YDtcayRA9vcfD05UOvpBHpQoNuPtNnfRzITgwOm8omljVhh2+p5
+          1YRUiFShTI6lpjYnhHE50GPjjC18QNOvMLp1LFXw6CSAo4NvfXe517AdbcgO6QPL
+          vcFFXTvoEhunjMY/2ee0L+pNGJM46yT0hQ6HKfTFkBT5qghFk5h/2m1TSlMDhNs3
+          B+UP5tjQo6+BIeNeAtfWP659RmSuXOBCmgJceQZ771vKcULH
+          =SEBo
+          -----END PGP PUBLIC KEY BLOCK-----
+      install-sources: |
+        - "deb [arch=amd64] http://192.168.30.28/ubuntu/ xenial main"
+
+  agilio-vrouter:
+    charm: ./agilio-vrouter
+    num_units: 0
+    series: xenial
+    options:
+      virtioforwarder-coremask: "2"
+      install-keys: |
+        - |
+          -----BEGIN PGP PUBLIC KEY BLOCK-----
+          Version: GnuPG v1
+
+          mQENBF8IEW8BCADhGtnvabijyGiwzh7nkL0HNk49ATrlg8nQcjfGkCafZQoXX2Wl
+          2d3+m1xMbVWMzLDL1E0bDrjV4Zl+n485fG44XxN1wUqKFgTJFrhVRnHomuUj3I7R
+          R9IMm4Rj+JO5PWeY2OcX2OtaMy5vFMaEnwtC3gJRDMU/U6nWWLCAC2JfyChKWgQQ
+          KrEN/E5Ra4P6+K+XSw3tjYAgbWN/E/rPcBnwb86J+sgCoEQ2s+0zuPusdC6Rqn91
+          aqmxAW0nO2MCiLJ5B+SWqMp0qwibnX/i3x7UTnjItQYyyEt2CFwk4dTksWWa6FQl
+          IMCUdftAjRd7qRX2JoE955XYf/c/rU8OrWvzABEBAAG0JXZpbm9kIGt1bWFyIDx2
+          aW5vZGt1bWFyYUBqdW5pcGVyLm5ldD6JATgEEwECACIFAl8IEW8CGwMGCwkIBwMC
+          BhUIAgkKCwQWAgMBAh4BAheAAAoJEBHrqW1Q7T/MdJkH/iP13KQSZCRuxzHqrEpG
+          CojqrbY/jSrOCVpoaft38Yx1YMknwSBqArpXRKUt+QimTz3zTPBasQudPNE62Acw
+          jlg+7DzUEm9TvN+afxvHxe7sdcLJneS6hYtIkzArMlCQtIVsESuc6B4g2UUz4jLn
+          MERCtLF8/7OamnLl/6vmUPEUlU2Sub3eZkNjUv4ANSVjrBlM/r9njFlV2z/EhsC0
+          y3QzgNJkaNdJP4BSJ6F7sb3THHo5Us4te0VY7H2/rk9QE6MwDK6GFxm0TNjtPA6h
+          kOMVf4KvyLGsiI2TCstyKMOk6q2cbk+XCzVzAupKK6dsBPvPJXcPS/klJwGlhQnA
+          hgG5AQ0EXwgRbwEIANn25sjf36ocwkILBEWvzQkOZ6Jd/hRQOC6SuuXwlFqTVd/y
+          CVbswxbOmzS4gUiMOPziY9UhwhpSZdMGF4F1gQYn/FHS3PDLhNMMP3hNUlpDb7GW
+          lga6AJkuTFrgFi1T8E9nEd6lJJNDh/0yZOd0j18f5UovQvALDKz0wCnNRoBOF+65
+          igz4O6WoOaIFnuALCXbrozWbsoU7ENhfSMBHz1PsqEH2/lH4JxYvK0wgy1jdSezb
+          yOr0NQKjKE4+jlsVsrB/C7uxvrQqh65cHoBGyMj8KO97PgGtH547aq+Px8WRVrvO
+          Telk+VIubpFqpJcjSHuR+P+7jjnRZe04iFNrsAUAEQEAAYkBHwQYAQIACQUCXwgR
+          bwIbDAAKCRAR66ltUO0/zBSgB/wMCvcgywWe9sUQG+GAPbRLReFCpVHaowrqEU8I
+          uqizBIIsOKYZ2IvBP+OmQ+tdWnPnRw5INpyUXiF1CfYH8QlwuX0ngtE4WEW3+SxK
+          6IBmRYHhzf7E4YDtcayRA9vcfD05UOvpBHpQoNuPtNnfRzITgwOm8omljVhh2+p5
+          1YRUiFShTI6lpjYnhHE50GPjjC18QNOvMLp1LFXw6CSAo4NvfXe517AdbcgO6QPL
+          vcFFXTvoEhunjMY/2ee0L+pNGJM46yT0hQ6HKfTFkBT5qghFk5h/2m1TSlMDhNs3
+          B+UP5tjQo6+BIeNeAtfWP659RmSuXOBCmgJceQZ771vKcULH
+          =SEBo
+          -----END PGP PUBLIC KEY BLOCK-----
+      install-sources: |
+        - "deb [arch=amd64] http://192.168.30.28/ubuntu/ xenial main"
+  contrail-analytics:
+    charm: ./contrail-charms/contrail-analytics
+    num_units: 3
+    series: xenial
+    options:
+      control-network: "192.168.40.0/24"
+    to: [ "1", "4", "5" ]
+  contrail-analyticsdb:
+    charm: ./contrail-charms/contrail-analyticsdb
+    num_units: 3
+    series: xenial
+    options:
+      cassandra-minimum-diskgb: "50"
+      control-network: "192.168.40.0/24"
+    to: [ "1", "4", "5" ]
+  contrail-controller:
+    charm: ./contrail-charms/contrail-controller
+    series: xenial
+    options:
+      control-network: "192.168.40.0/24"
+      use-external-rabbitmq: True
+    num_units: 3
+    to: [ "1", "4", "5" ]
+  contrail-keystone-auth:
+    charm: ./contrail-charms/contrail-keystone-auth
+    series: xenial
+    num_units: 1
+    bindings:
+      '': new
+    to: [ "lxd:1" ]
+
+ # contrail-keepalived:
+ #   charm: cs:~boucherv29/keepalived-19
+ #   series: xenial
+ #   options:
+ #     virtual_ip: 192.168.10.254
+ # contrail-haproxy:
+ #   charm: haproxy
+ #   series: xenial
+ #   expose: true
+ #   options:
+ #     peering_mode: "active-active"
+ #   to: [ "1", "2", "3" ]
+
+relations:
+  # openstack
+  #- [ "ubuntu", "ntp" ]
+  - [ "keystone", "mysql" ]
+  - [ "glance", "mysql" ]
+  - [ "glance", "keystone" ]
+  - [ "nova-cloud-controller", "mysql" ]
+  - [ "nova-cloud-controller", "rabbitmq-server" ]
+  - [ "nova-cloud-controller", "keystone" ]
+  - [ "nova-cloud-controller", "glance" ]
+  - [ "neutron-api", "mysql" ]
+  - [ "neutron-api", "rabbitmq-server" ]
+  - [ "neutron-api", "nova-cloud-controller" ]
+  - [ "neutron-api", "keystone" ]
+  - [ "accel-nova-compute:amqp", "rabbitmq-server:amqp" ]
+  - [ "accel-nova-compute", "glance" ]
+  - [ "accel-nova-compute", "nova-cloud-controller" ]
+  - [ "accel-nova-compute", "ntp" ]
+  - [ "openstack-dashboard:identity-service", "keystone" ]
+  - [ "openstack-dashboard", "mysql" ]
+#  - [ "heat", "mysql" ]
+#  - [ "heat", "contrail-rabbitmq-server" ]
+#  - [ "heat", "keystone" ]
+
+  #contrail
+#  - [ "haproxy:juju-info", "keepalived:juju-info" ]
+  - [ "contrail-keystone-auth", "keystone" ]
+  - [ "contrail-controller", "contrail-keystone-auth" ]
+  - [ "contrail-controller", "contrail-rabbitmq-server:amqp" ]
+  - [ "contrail-analytics", "contrail-analyticsdb" ]
+  - [ "contrail-controller", "contrail-analytics" ]
+  - [ "contrail-controller", "contrail-analyticsdb" ]
+  - [ "contrail-openstack", "accel-nova-compute" ]
+  - [ "contrail-openstack", "neutron-api" ]
+#  - [ "contrail-openstack", "heat" ]
+  - [ "contrail-openstack", "contrail-controller" ]
+  - [ "accel-contrail-agent:juju-info", "accel-nova-compute:juju-info" ]
+  - [ "accel-contrail-agent", "contrail-controller"]
+
+  #Agilio vrouter
+  - [ "accel-contrail-agent", "agilio-vrouter"]
+  - [ "agilio-vrouter:juju-info", "accel-nova-compute:juju-info" ]
+
+  #haproxy
+#  - [ "haproxy:juju-info", "keepalived:juju-info" ]
+#  - [ "contrail-analytics", "haproxy" ]
+#  - [ "contrail-controller:http-services", "haproxy" ]
+#  - [ "contrail-controller:https-services", "haproxy" ]
+
+machines:
+  "1":
+    series: xenial
+    #constraints: mem=15G root-disk=40G
+    constraints: tags=controller
+  "2":
+    series: xenial
+    #constraints: mem=4G root-disk=20G
+    constraints: tags=compute
+  "3":
+    series: xenial
+    #constraints: mem=4G root-disk=20G
+    constraints: tags=compute
+  "4":
+    series: xenial
+    #constraints: mem=4G root-disk=20G
+    constraints: tags=controller
+  "5":
+    series: xenial
+    #constraints: mem=4G root-disk=20G
+    constraints: tags=controller

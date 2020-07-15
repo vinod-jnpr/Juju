@@ -2,7 +2,7 @@
 
 https://drive.google.com/file/d/1baXdx56fB2D-ml3TKKN9Loc6vRqeuneR/view
 
-when upgrade just bash to the test container rather than attach so that the other scripts can be run after upgrade
+When upgrade just bash to the test container rather than attach so that the other scripts can be run after upgrade.
 Tc for upgrade:test_svc_in_network_datapath
 
 # Backup and restore

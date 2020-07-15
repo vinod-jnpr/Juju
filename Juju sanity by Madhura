@@ -2,8 +2,8 @@
 
 1. Enable root authentication on all bms machines
 
-sudo sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-sudo sed -i 's/#PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+sudo sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config 
 sudo systemctl restart sshd
 
 2. Use the sample contrail_test_input.yaml file and create your own file by replacing the ip address.

@@ -1,3 +1,5 @@
+# Bringing up
+
 testrunner.sh load docker-image-contrail-test-ocata-4.1.5.0-66.tar.gz
 sudo ./testrunner.sh run -s contrail-test-ocata:4.1.5.0-66
 
@@ -7,16 +9,18 @@ copy testbed file to : /opt/contrail/utils/fabfile/testbeds/
 
 bash -x tools/check_test_discovery.sh > tests.txt
 
+./testrunner.sh run -s -t <testbed.py> <contrail-test docker image> 
+to bring up a new docker image
 
-Adding static route in neutron_api
-==================================
+# Adding static route in neutron_api
+
 add this in the controller
 sudo route add -net 192.168.30.81<IP of neturon api>  netmask 255.255.255.255 gw 192.168.40.254
 
 Inside neutron_api  : sudo ip route add 192.168.40.0/24 via 192.168.30.254
 
-Copy this file to test Container
-=================================
+# Copy this file to test Container
+
 /root/ankit/contrail-test/images/ubuntu.vmdk.gz
 Present in nodem4 also
 

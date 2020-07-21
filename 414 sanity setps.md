@@ -1,6 +1,7 @@
 # Bringing up
 
 testrunner.sh load docker-image-contrail-test-ocata-4.1.5.0-66.tar.gz
+
 sudo ./testrunner.sh run -s contrail-test-ocata:4.1.5.0-66
 
 copy testbed file to : /opt/contrail/utils/fabfile/testbeds/

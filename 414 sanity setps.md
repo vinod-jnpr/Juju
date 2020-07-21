@@ -29,5 +29,6 @@ To enable Netronome : in sanity_params.ini  , Enable flag "ns_agilio_vrouter": "
 
 
 export PYTHONPATH=./scripts:./fixtures:./serial_scripts
+
 python -m testtools.run scripts.vm_regression.test_vm_basic.TestBasicVMVN.test_vm_add_delete
 

@@ -1,3 +1,5 @@
+# Execuet the above commands with root login
+
 1. Untar contrail-cloud-docker_4.1.1.0-<build>-ocata_xenial.tgz (get this from support site) and get contrail-dockers:
 - #tar -xvf contrail-cloud-docker_4.1.1.0-<build>-ocata_xenial.tgz
 

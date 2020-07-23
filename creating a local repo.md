@@ -27,7 +27,7 @@
 - #./create-opentack-packages.sh
 - #cd /var/www/html/
 - #cp Netronome_R4.1.2_build_<build_nr>_Juju/debs/package_builder/patched-openstack-packages/*.deb .
-- # rm -r Netronome_R4.1.2_build_<build_nr>_Juju       
+- #rm -r Netronome_R4.1.2_build_<build_nr>_Juju       
 
 - #cd /var/www/html/
 - #mkdir -p ubuntu/conf

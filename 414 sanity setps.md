@@ -25,7 +25,7 @@ Inside neutron_api  : sudo ip route add 192.168.40.0/24 via 192.168.30.254
 /root/ankit/contrail-test/images/ubuntu.vmdk.gz
 Present in nodem4 also
 
-To enable Netronome : in sanity_params.ini  , Enable flag "ns_agilio_vrouter": "True"
+To enable Netronome : in sanity_testbed.json  , Enable flag "ns_agilio_vrouter": "True"
 
 
 export PYTHONPATH=./scripts:./fixtures:./serial_scripts

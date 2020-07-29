@@ -1,4 +1,5 @@
 # Bringing up
+wget https://github.com/tungstenfabric/tf-test/raw/master/testrunner.sh
 
 testrunner.sh load docker-image-contrail-test-ocata-4.1.5.0-66.tar.gz
 

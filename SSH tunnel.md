@@ -26,7 +26,7 @@ It connects openstack-daskboard to noded2(192.168.11.2)
 
 
 ```
-ssh -fN -R 0.0.0.0:9999:localhost:80 root@192.168.30.17
+ssh -fN -R 0.0.0.0:9999:localhost:80 root@192.168.30.9
 ```
 
 # To view the horizon UI
@@ -34,7 +34,7 @@ ssh -fN -R 0.0.0.0:9999:localhost:80 root@192.168.30.17
 The horizon page van be viewed by the below commands, (10.204.216.57) below is ip of noded2 port(9999) is port used for reverse SSH
 
 ```
-http://10.204.216.171:9999/horizon
+http://10.204.216.219:9999/horizon
 ```
 
 # To launch Vm's and ping between them

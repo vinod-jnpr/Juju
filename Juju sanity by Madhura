@@ -3,15 +3,8 @@
 1. Enable root authentication on all bms machines
 
 sudo sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config 
-sudo sed -i 's/^.*sleep 10\"\ / /' ~/.ssh/authorized_keys
-
-sudo systemctl restart sshd
-
-
-latest release
-
 sudo sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config
+sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config 
 sudo sed -i 's/^.*sleep 10\"\ / /' ~/.ssh/authorized_keys
 
 sudo systemctl restart sshd

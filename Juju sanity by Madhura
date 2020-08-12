@@ -9,6 +9,14 @@ sudo sed -i 's/^.*sleep 10\"\ / /' ~/.ssh/authorized_keys
 sudo systemctl restart sshd
 
 
+latest release
+
+sudo sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config
+sudo sed -i 's/^.*sleep 10\"\ / /' ~/.ssh/authorized_keys
+
+sudo systemctl restart sshd
+
+
 2. Use the sample contrail_test_input.yaml file and create your own file by replacing the ip address.
 
 3. Download the testrunner.sh script using the below command.

@@ -14,7 +14,7 @@ variables:
   docker-registry:              &docker-registry                "bng-artifactory.juniper.net/contrail-nightly"
   #docker-user:                  &docker-user                    "JNPR-Customer200"
   #docker-password:              &docker-password                "FSg0vLW^7oM#GZy8Ju*f"
-  image-tag:                    &image-tag                      "2008.30"
+  image-tag:                    &image-tag                      "2008.45"
   docker-registry-insecure:     &docker-registry-insecure       "true"
   dockerhub-registry:           &dockerhub-registry             "https://index.docker.io/v1/"
 machines:

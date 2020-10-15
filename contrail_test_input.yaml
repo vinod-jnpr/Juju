@@ -10,8 +10,8 @@ provider_config:
       ssh_user: root
 
 instances:
-  nodea29:
-      ip: 192.168.11.14
+  nodea22:
+      ip: 192.168.30.48
       provider: bms
       roles:
           analytics: null
@@ -22,19 +22,19 @@ instances:
           openstack: null
           webui: null
   nodei8:
-      ip: 192.168.11.15
+      ip: 192.168.30.51
       provider: bms
       roles:
           openstack_compute: null
           vrouter:
-              PHYSICAL_INTERFACE: enp4s0np0
+              PHYSICAL_INTERFACE: nfp_p0
   nodem35:
-      ip: 192.168.11.17
+      ip: 192.168.30.52
       provider: bms
       roles:
           openstack_compute: null
           vrouter:
-              PHYSICAL_INTERFACE: enp4s0np0
+              PHYSICAL_INTERFACE: nfp_p0
 
 global_configuration:
   REGISTRY_PRIVATE_INSECURE: True
@@ -44,23 +44,23 @@ contrail_configuration:
   API__DEFAULTS__max_request_size: 11124000
   AAA_MODE: rbac
   CLOUD_ORCHESTRATOR: openstack
-  CONFIG_API_VIP: 192.168.11.14
+  CONFIG_API_VIP: 192.168.30.48
   CONTAINER_REGISTRY: bng-artifactory.juniper.net/contrail-nightly
   METADATA_PROXY_SECRET: c0ntrail123
-  CONTRAIL_VERSION: 2005.27
+  CONTRAIL_VERSION: 2008.45
   OPENSTACK_VERSION: queens
-  CONTROLLER_NODES: 192.168.11.14
-  CONTROL_NODES: 192.168.21.7
-  IPFABRIC_SERVICE_IP: 192.168.11.14
+  CONTROLLER_NODES: 192.168.30.48
+  CONTROL_NODES: 192.168.40.48
+  IPFABRIC_SERVICE_IP: 192.168.30.48
   KEYSTONE_AUTH_ADMIN_PASSWORD: c0ntrail123
-  KEYSTONE_AUTH_HOST: 192.168.11.15
+  KEYSTONE_AUTH_HOST: 192.168.30.51
   KEYSTONE_AUTH_URL_VERSION: /v3
-  IPFABRIC_SERVICE_HOST: 192.168.11.14
+  IPFABRIC_SERVICE_HOST: 192.168.30.48
   ENCAP_PRIORITY: "VXLAN,MPLSoUDP,MPLSoGRE"
-  OPENSTACK_NODES: 192.168.11.14
+  OPENSTACK_NODES: 192.168.30.48
   RABBITMQ_NODE_PORT: 5673
   REGISTRY_PRIVATE_INSECURE: True
-  VROUTER_GATEWAY: 192.168.21.254
+  VROUTER_GATEWAY: 192.168.40.254
   RABBITMQ_NODE_PORT: "5673"
   CONFIG_NODEMGR__DEFAULTS__minimum_diskGB: "2"
   CONFIG_DATABASE_NODEMGR__DEFAULTS__minimum_diskGB: "2"
@@ -69,9 +69,9 @@ contrail_configuration:
 
 kolla_config:
   kolla_globals:
-    kolla_external_vip_address: 192.168.11.15
-    kolla_internal_vip_address: 192.168.11.15
-    contrail_api_interface_address: 192.168.11.14
+    kolla_external_vip_address: 192.168.30.51
+    kolla_internal_vip_address: 192.168.30.51
+    contrail_api_interface_address: 192.168.30.48
     keepalived_virtual_router_id: 235
     enable_swift: "no"
     #enable_ironic: "no"
@@ -82,12 +82,12 @@ kolla_config:
     keystone_admin_password: c0ntrail123
 
 orchestrator_configuration:
-  contrail_api_interface_address: 192.168.11.14
+  contrail_api_interface_address: 192.168.30.48
   enable_haproxy: 'no'
   #enable_ironic: 'no'
   enable_swift: 'no'
-  external_vip: 192.168.11.15
-  internal_vip: 192.168.11.15
+  external_vip: 192.168.30.51
+  internal_vip: 192.168.30.51
   keystone:
       password: c0ntrail123
       version: v3
@@ -99,8 +99,29 @@ orchestrator_configuration:
 
 
 test_configuration:
+  public_rt: 150
+  public_virtual_network: 10.204.220.232/29
+  public_subnet: 10.204.220.232/29
+  ext_routers:
+    blr-mx2: 192.168.40.245
+  physical_routers:
+    blr-mx2:
+      vendor: juniper
+      model : mx
+      asn  : 64512
+      name : blr-mx2
+      control_ip : 192.168.40.245
+      tunnel_ip : 192.168.40.245
+      ports :
+      ssh_username : root
+      ssh_password : c0ntrail123
+      mgmt_ip : 10.204.216.245
+      type : router
+      role: gw
+      bgp_protocol_group: juju_sanity_d2
+      group_name: juju_sanity_d2
   cfgm0_host_pwd: c0ntrail123
-  cfgm0_host_string: ubuntu@192.168.11.14
+  cfgm0_host_string: ubuntu@192.168.30.48
   image_web_server: 10.204.217.158
   use_project_scoped_token: True
   public_host: 10.84.5.120
@@ -121,21 +142,21 @@ test_configuration:
     sender: contrailbuild@juniper.net
 
 control_data:
-    nodea29:
-        ip: 192.168.11.14
-        ctrldata_ip: 192.168.21.7
+    nodea22:
+        ip: 192.168.30.48
+        ctrldata_ip: 192.168.40.48
         prefix: 24
-        gw: 192.168.21.254
+        gw: 192.168.40.254
         device: enp2s0f3
     nodei8:
-        ip: 192.168.11.15
-        ctrldata_ip: 192.168.21.9
+        ip: 192.168.30.51
+        ctrldata_ip: 192.168.40.51
         prefix: 24
-        gw: 192.168.21.254
+        gw: 192.168.40.254
         device: vhost0
     nodem35:
-        ip: 192.168.11.17
-        ctrldata_ip: 192.168.21.11
+        ip: 192.168.30.52
+        ctrldata_ip: 192.168.40.52
         prefix: 24
-        gw: 192.168.21.254
+        gw: 192.168.40.254
         device: vhost0
